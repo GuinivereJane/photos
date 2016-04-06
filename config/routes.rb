@@ -1,11 +1,10 @@
 Rails.application.routes.draw do
-  get 'photos' => 'photos#index'
 
-  post 'photos' => 'photos#create'
-  get 'photos/new' => 'photos#new'
+  root 'photos#index'
 
+  resources :photos
 
-  get 'photos/:id' => 'photos#show', as: 'photo'
+  delete 'photos/:id' => 'photos#destroy', as: "delete_photo"
 
 
 

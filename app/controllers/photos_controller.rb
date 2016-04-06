@@ -8,11 +8,43 @@ class PhotosController < ApplicationController
   end
 
   def new
-    
+    @photo = Photo.new
   end
 
   def create
-    render :text => "Saving a photo. URL #{params[:url]}, Title #{params[:title]}, Artist #{params[:artist]}"
+    @photo = Photo.new(photo_params)
+    if @photo.save
+      redirect_to photos_url
+    else
+      render :new
+    end
   end
+
+  def edit
+    @photo = Photo.find(params[:id])
+  end
+
+  def update
+    @photo = Photo.find(params[:id])
+    if @photo.update_attributes(photo_params)
+      redirect_to photos_url(@photo)
+    else
+      render :edit
+    end
+  end
+
+  def destroy
+    @photo = Photo.find(params[:id])
+    @photo.destroy
+    redirect_to photos_url
+  end
+
+
+  private
+
+  def photo_params
+    params.require(:photo).permit(:artist, :title, :url)
+  end
+
 
 end
